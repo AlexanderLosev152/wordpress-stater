@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: my_site
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    depends_on:
+      - mysql
+    ports:
+      - 8000:80
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: my_site
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - ./.srv/wordpress:/var/www/html
+      - ./theme:/var/www/html/wp-content/themes/ale
+      - ./plugin:/var/www/html/wp-content/plugins/ale-core
+      - ./.srv/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - 8181:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_USERNAME: wordpress
+
+volumes:
+  mysql_data:
+#docker-compose down
+#docker-compose up -d
