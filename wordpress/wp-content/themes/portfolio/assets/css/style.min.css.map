@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss","style.css"],"names":[],"mappings":"AAAA,KAEC,eAAA,CADA,UCED","file":"style.min.css","sourcesContent":["body {\n\tcolor: #fff;\n\tbackground: #000;\n}\n","body {\n  color: #fff;\n  background: #000;\n}"]}
